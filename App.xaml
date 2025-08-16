@@ -2,8 +2,24 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ExerciseTracker"
-             StartupUri="MainWindow.xaml">
+             xmlns:viewModel="clr-namespace:ExerciseTracker.ViewModels"
+             xmlns:view="clr-namespace:ExerciseTracker.Views">
     <Application.Resources>
-         
+        <DataTemplate DataType="{x:Type TypeName=viewModel:MainViewModel}">
+            <view:MainWindow/>
+        </DataTemplate> 
+        <DataTemplate DataType="{x:Type TypeName=viewModel:SessionListViewModel}">
+            <view:SessionList/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type TypeName=viewModel:SessionDetailsViewModel}">
+            <view:SessionDetails/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type TypeName=viewModel:AddSessionViewModel}">
+            <view:AddSession/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type TypeName=viewModel:ExerciseListViewModel}">
+            <view:ExerciseList/>
+        </DataTemplate>
+        
     </Application.Resources>
 </Application>
