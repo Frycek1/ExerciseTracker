@@ -7,7 +7,9 @@
         xmlns:viewmodels="clr-namespace:ExerciseTracker.ViewModels" 
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        MinHeight="300" MinWidth="600"
+        WindowStartupLocation="CenterScreen">
     <Grid Margin="20">
         <ContentControl Content="{Binding Navigation.CurrentView}" />
     </Grid>

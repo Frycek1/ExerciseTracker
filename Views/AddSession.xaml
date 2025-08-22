@@ -3,57 +3,116 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ExerciseTracker.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Dodaj Sesję Treningową" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
-        <Button Grid.Row="0" 
-                Command="{Binding SaveSessionCommand}" 
-                Content="Zapisz Sesję" 
-                Height="40" 
-                Margin="0,0,0,10" 
-                HorizontalAlignment="Right"/> 
-        <ListView Grid.Row="1" 
-                  ItemsSource="{Binding Exercises}"
-                  SelectedItem="{Binding SelectedExercise}"
-                  HorizontalContentAlignment="Stretch">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="10">
-                        <TextBlock Text="{Binding Name}" FontSize="18"/>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Grid Grid.Row="2" Margin="0,10,0,0">
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+            <TextBlock Text="{Binding Title}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+            <Button Content="Save session"
+                    Command="{Binding SaveSessionCommand}" 
+                    Height="40" 
+                    Margin="20,0,0,0"
+                    Padding="10,0"/>
+            <Button Content="Cancel" 
+                    Command="{Binding CancelCommand}"
+                    Height="40" 
+                    Margin="20,0,0,0"
+                    Padding="10,0"/>
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="0,0,0,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Exercise" FontSize="18" Margin="0,0,0,10"/>
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="Reps" FontSize="18" Margin="0,0,0,10"/>
-            <TextBlock Grid.Row="0" Grid.Column="2" Text="Weight" FontSize="18" Margin="0,0,0,10"/>
-            <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding ExerciseName}" Margin="0,0,10,0"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Reps}" Margin="0,0,10,0"/>
-            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Weight}" Margin="0,0,10,0"/>
-            <Button Grid.Row="1" Grid.Column="3" 
-                    Command="{Binding AddExerciseCommand}" 
-                    Content="Add" 
-                    Height="30" 
-                    Margin="0,0,10,0"/>
+            <TextBlock Grid.Row="0" Text="Session Description:" VerticalAlignment="Center" Margin="0,0,10,5"/>
+            <TextBox Grid.Row="1"
+                 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                 Height="60"
+                 TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto"
+                 /> 
+        </Grid>
+        <ListView Grid.Row="2" 
+                  ItemsSource="{Binding CurrentSessionSets}"
+                  HorizontalContentAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border x:Name="ItemBorder" BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="10" Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding ExerciseName}" FontWeight="SemiBold" FontSize="16"/>
+                                <TextBlock Text=" - " FontSize="16"/>
+                                <TextBlock Text="{Binding Reps}" FontSize="16"/>
+                                <TextBlock Text=" x " FontSize="16"/>
+                                <TextBlock Text="{Binding Weight}" FontSize="16"/>
+                                <TextBlock Text=" kg" FontSize="16"/>
+                            </StackPanel>
+
+                            <Button x:Name="RemoveButton"
+                        Grid.Column="1" 
+                        Content="X"
+                        FontWeight="Bold"
+                        Foreground="Red"
+                        VerticalAlignment="Center"
+                        Command="{Binding DataContext.RemoveSetCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                        CommandParameter="{Binding}"
+                        Visibility="Hidden"
+                        BorderThickness="0"
+                        Background="Transparent"/>
+                        </Grid>
+                    </Border>
+
+                    <DataTemplate.Triggers>
+                        <Trigger SourceName="ItemBorder" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="RemoveButton" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Grid Grid.Row="3" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Exercise:" Margin="0,0,10,5"/>
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="Number of reps:" Margin="0,0,10,5"/>
+            <TextBlock Grid.Column="2" Grid.Row="0" Text="Weight (kg):" Margin="0,0,10,5"/>
+
+            <ComboBox Grid.Column="0" Grid.Row="1"
+                      ItemsSource="{Binding AllExercises}"
+                      SelectedItem="{Binding SelectedExercise}"
+                      DisplayMemberPath="Name"
+                      Margin="0,0,10,0" VerticalContentAlignment="Center"/>
+
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Reps, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0" VerticalContentAlignment="Center"/>
+
+            <Button Grid.Column="3" Grid.Row="1"
+                    Command="{Binding AddSetCommand}" 
+                    Content="Add set" 
+                    Padding="15,0"/>
         </Grid>
     </Grid>
 </UserControl>

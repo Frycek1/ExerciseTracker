@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace ExerciseTracker.Models
 {
-    public class Session
+    public class InitialData
     {
-        public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public string Description { get; set; }
+        public List<string> MuscleGroups { get; set; }
+        public List<ExerciseWithMuscleGroups> Exercises { get; set; }
     }
 }

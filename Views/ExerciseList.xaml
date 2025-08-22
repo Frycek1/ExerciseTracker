@@ -3,10 +3,106 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ExerciseTracker.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="AccordionStyle" TargetType="{x:Type TabControl}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ItemsPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AccordionItemStyle" TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <StackPanel>
+                            <ToggleButton IsChecked="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                          Content="{TemplateBinding Header}"
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                          OverridesDefaultStyle="True"
+                                          Focusable="False">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="10" Background="Transparent">
+                                            <ContentPresenter />
+                                        </Border>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+
+                            <ContentPresenter x:Name="ContentSite"
+                                              Visibility="Collapsed"
+                                              Content="{TemplateBinding Content}">
+                                <ContentPresenter.ContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="15,10,5,10">
+                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontStyle="Italic" Foreground="DimGray" Margin="0,0,0,10"/>
+                                            <TextBlock Text="Muscle groups:" FontWeight="Medium" Margin="0,0,0,5"/>
+                                            <ItemsControl ItemsSource="{Binding MuscleGroups}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding}" Margin="15,0,0,0" />
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ContentPresenter.ContentTemplate>
+                            </ContentPresenter>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+            <TextBlock Text="Exercises List" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+            <Button Command="{Binding NavigateToAddExerciseCommand}"
+                    Content="Add new exercise" 
+                    Height="40" 
+                    Margin="20,0,0,0"
+                    Padding="10,0"/>
+            <Button Command="{Binding NavigateToSessionListCommand}" 
+                    Content="Go to session history" 
+                    Height="40" 
+                    Margin="20,0,0,0"
+                    Padding="10,0"/>
+        </StackPanel>
+        
+
+        <Border Grid.Row="1"
+                BorderBrush="Gray"
+                BorderThickness="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TabControl ItemsSource="{Binding Exercises}"
+                            Style="{StaticResource AccordionStyle}"
+                            ItemContainerStyle="{StaticResource AccordionItemStyle}"
+                            BorderThickness="0">
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" FontSize="18" />
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                </TabControl>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </UserControl>

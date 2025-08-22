@@ -25,10 +25,12 @@ namespace ExerciseTracker
             });
             _services.AddSingleton<MainViewModel>();
             _services.AddSingleton<AddSessionViewModel>();
-            _services.AddSingleton<SessionDetailsViewModel>();
             _services.AddSingleton<SessionListViewModel>();
             _services.AddSingleton<ExerciseListViewModel>();
+            _services.AddSingleton<AddExerciseViewModel>();
             _services.AddSingleton<INavigationService, NavigationService>();
+
+            _services.AddSingleton<DatabaseService>(provider => new DatabaseService("ExerciseTracker")); 
 
             _services.AddSingleton<Func<Type, ViewModel>>(serviceProvider => viewModelType => (ViewModel)serviceProvider.GetRequiredService(viewModelType));
 

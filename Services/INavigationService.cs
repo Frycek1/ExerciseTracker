@@ -11,5 +11,6 @@ namespace ExerciseTracker.Services
     {
         ViewModel CurrentView { get; }
         void NavigateTo<T>() where T : ViewModel;
+        void NavigateTo<TViewModel, TParameter>(TParameter parameter) where TViewModel : ViewModel;
     }
 }

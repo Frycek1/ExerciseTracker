@@ -7,12 +7,9 @@
     <Application.Resources>
         <DataTemplate DataType="{x:Type TypeName=viewModel:MainViewModel}">
             <view:MainWindow/>
-        </DataTemplate> 
+        </DataTemplate>
         <DataTemplate DataType="{x:Type TypeName=viewModel:SessionListViewModel}">
             <view:SessionList/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type TypeName=viewModel:SessionDetailsViewModel}">
-            <view:SessionDetails/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type TypeName=viewModel:AddSessionViewModel}">
             <view:AddSession/>
@@ -20,6 +17,9 @@
         <DataTemplate DataType="{x:Type TypeName=viewModel:ExerciseListViewModel}">
             <view:ExerciseList/>
         </DataTemplate>
-        
+        <DataTemplate DataType="{x:Type TypeName=viewModel:AddExerciseViewModel}">
+            <view:AddExercise/>
+        </DataTemplate>
+
     </Application.Resources>
 </Application>

@@ -8,50 +8,58 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace ExerciseTracker.ViewModels
 {
     class SessionListViewModel : ViewModel
     {
-        private readonly ObservableCollection<Session> _sessions;
-        public IEnumerable<Session> Sessions => _sessions;
+        private readonly DatabaseService _databaseService;
+        private readonly INavigationService _navigationService;
 
-        INavigationService _navigation;
-        public INavigationService Navigation
+        public ObservableCollection<Session> Sessions { get; } = new();
+
+        private Session _selectedSession;
+        public Session SelectedSession
         {
-            get => _navigation;
+            get => _selectedSession;
             set
             {
-                if (_navigation != value)
+                if (SetProperty(ref _selectedSession, value) && value != null)
                 {
-                    _navigation = value;
-                    OnPropertyChanged(nameof(NavigationService));
+                    _navigationService.NavigateTo<AddSessionViewModel, Session>(value);
+                    _selectedSession = null;
                 }
             }
         }
+
         public RelayCommand AddNewSessionCommand { get; }
         public RelayCommand ShowExerciseListCommand { get; }
-        public SessionListViewModel(INavigationService navigation)
+        public SessionListViewModel(INavigationService navigation, DatabaseService databaseService)
         {
-            Navigation = navigation;
-            AddNewSessionCommand = new RelayCommand(o => Navigation.NavigateTo<AddSessionViewModel>(), o => true);
-            ShowExerciseListCommand = new RelayCommand(o => Navigation.NavigateTo<ExerciseListViewModel>(), o => true);
+            _navigationService = navigation;
+            _databaseService = databaseService;
 
-            _sessions = new ObservableCollection<Session>
-            {
-                new Session
-                {
-                    Id = 1,
-                    Date = DateTime.Now,
-                    
-                },
-                new Session
-                {
-                    Id = 2,
-                    Date = DateTime.Now.AddDays(-1),
-                    
-                }
-            };
+            AddNewSessionCommand = new RelayCommand(o => _navigationService.NavigateTo<AddSessionViewModel>(), o => true);
+            ShowExerciseListCommand = new RelayCommand(o => _navigationService.NavigateTo<ExerciseListViewModel>(), o => true);
+
+            LoadSessions();
         }
+
+        public override void OnNavigatedTo()
+        {
+            
+            LoadSessions();
+        }
+        private void LoadSessions()
+        {
+            Sessions.Clear();
+            var sessionsFromDb = _databaseService.GetAllSessions();
+            foreach (var session in sessionsFromDb)
+            {
+                Sessions.Add(session);
+            }
+        }
+
     }
 }

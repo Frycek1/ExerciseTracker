@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ExerciseTracker.Core
 {
-    public abstract class ViewModel : ObservableObject
+    public interface IParameterReceiver<TParameter>
     {
-        public virtual void OnNavigatedTo() { }
+        void ReceiveParameter(TParameter parameter);
     }
 }

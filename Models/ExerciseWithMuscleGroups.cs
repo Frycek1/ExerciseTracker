@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ExerciseTracker.Models
-{
-    public class Session
+{ 
+
+    public class ExerciseWithMuscleGroups
     {
-        public int Id { get; set; }
-        public DateTime Date { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
+        public List<string> MuscleGroups { get; set; }
     }
 }

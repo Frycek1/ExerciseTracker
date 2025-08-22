@@ -32,6 +32,17 @@ namespace ExerciseTracker.Services
         {
             ViewModel viewModel = _viewModelFactory.Invoke(typeof(TViewModel));
             CurrentView = viewModel;
+            CurrentView.OnNavigatedTo();
+        }
+        public void NavigateTo<TViewModel, TParameter>(TParameter parameter) where TViewModel : ViewModel
+        {
+            ViewModel viewModel = _viewModelFactory.Invoke(typeof(TViewModel));
+            if (viewModel is IParameterReceiver<TParameter> parameterReceiver)
+            {
+                parameterReceiver.ReceiveParameter(parameter);
+            }
+            CurrentView = viewModel;
+            CurrentView.OnNavigatedTo();
         }
     }
 }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ExerciseTracker.Views
 {
     /// <summary>
-    /// Interaction logic for SessionDetails.xaml
+    /// Interaction logic for AddExercise.xaml
     /// </summary>
-    public partial class SessionDetails : UserControl
+    public partial class AddExercise : UserControl
     {
-        public SessionDetails()
+        public AddExercise()
         {
             InitializeComponent();
         }
