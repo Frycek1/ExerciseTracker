@@ -1,6 +1,5 @@
 ﻿using ExerciseTracker.Core;
 using ExerciseTracker.Models; 
-using ExerciseTracker.Models; 
 using ExerciseTracker.Services;
 using System.Collections.ObjectModel;
 
