@@ -90,6 +90,7 @@ namespace ExerciseTracker.ViewModels
             Reps = 0;
             Weight = 0;
             SelectedExercise = null;
+            LoadInitialData();
             OnPropertyChanged(nameof(Title));
         }
         
