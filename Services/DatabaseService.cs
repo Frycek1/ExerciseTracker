@@ -2,13 +2,7 @@
 using ExerciseTracker.ViewModels;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExerciseTracker.Services
 {

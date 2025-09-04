@@ -2,16 +2,11 @@
 using ExerciseTracker.ViewModels;
 using ExerciseTracker.Views;
 using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 using ExerciseTracker.Core;
 
 namespace ExerciseTracker
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         private readonly IServiceCollection _services = new ServiceCollection();
