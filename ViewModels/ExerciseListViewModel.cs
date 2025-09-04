@@ -1,8 +1,8 @@
 ﻿using ExerciseTracker.Core;
-using ExerciseTracker.Models; // Upewnij się, że masz ten using
+using ExerciseTracker.Models; 
+using ExerciseTracker.Models; 
 using ExerciseTracker.Services;
 using System.Collections.ObjectModel;
-using System.Collections.Generic; // Dodaj ten using
 
 namespace ExerciseTracker.ViewModels
 {
